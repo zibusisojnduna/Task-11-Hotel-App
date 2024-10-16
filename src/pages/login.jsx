@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 function Login(){
     return(
     <div style={{ justifyContent:"center", alignItems:"center", height:"100vh", width:"100vw", textAlign:"center"}}>
@@ -8,7 +9,8 @@ function Login(){
             <input type="password" placeholder="Password" style={{margin:"1%"}}/><br></br>
             <button className="w3-button" style={{backgroundColor:"#0d4a75", color:"white"}}>Login</button>
 
-            <p>or if you don't have an account yet<br></br></p>
+            <p>or if you don't have an account yet</p><br></br>
+            <Link to={"/signup"} style={{color:"#4777a1"}}>Sign Up</Link>
         </form>
     </div>
     )

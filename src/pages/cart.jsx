@@ -2,8 +2,15 @@ import React from 'react'
 
 export default function Cart() {
   return (
-    <div>
-        <h1>This is the cart page.</h1>
-    </div>
+    <section style={{textAlign:"center"}}>
+      <h1>Cart</h1>
+       <div>
+        <th>
+          
+        </th>
+        <button className='w3-button' style={{backgroundColor:"#0d4a75", color:"white"}}>Checkout</button>
+       </div>
+    </section>
+   
   )
 }
