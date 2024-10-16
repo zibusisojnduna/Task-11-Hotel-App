@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -13,9 +13,37 @@ import Cart from './pages/cart'
 import AdminProfile from './pages/adminProfile'
 import AccommodationList from './pages/adminAccommodationList'
 import NoPage from './pages/noPage'
+import { getDatabase, ref, onValue } from "firebase/database";
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [data, setData] = useState([])
+  // useEffect(() => {
+  //   // Initialize the Firebase database with the provided configuration
+  //   const database = getDatabase(cong);
+    
+  //   // Reference to the specific collection in the database
+  //   const collectionRef = ref(database, "your_collection");
+
+  //   // Function to fetch data from the database
+  //   const fetchData = () => {
+  //     // Listen for changes in the collection
+  //     onValue(collectionRef, (snapshot) => {
+  //       const dataItem = snapshot.val();
+
+  //       // Check if dataItem exists
+  //       if (dataItem) {
+  //         // Convert the object values into an array
+  //         const displayItem = Object.values(dataItem);
+  //         setData(displayItem);
+  //       }
+  //     });
+  //   };
+
+  //   // Fetch data when the component mounts
+  //   fetchData();
+  // }, []);
+
 
   return (
     <>
