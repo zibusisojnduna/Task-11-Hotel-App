@@ -1,6 +1,12 @@
 import React from 'react'
-
+import { auth, db } from '../components/firebase'
+import { doc, getDoc } from 'firebase/firestore'
+import { toast } from 'react-toastify'
 export default function Profile() {
+  const [userDetails, setUserDetails] = useState(null)
+  const fetchUserData = async(user) => {
+    console.log
+  }
   return (
     <section style={{textAlign:"center"}}>
       <div>
@@ -8,12 +14,11 @@ export default function Profile() {
       </div>
 
       <div>
-        <img aria-placeholder='Img'></img><br></br>
-        <input type='text' placeholder='Full Name'></input><button className='w3-button' style={{color:"white",backgroundColor:"green", margin:'1%' }}>Edit</button><br></br>
-        <input type='text' placeholder='Email'></input><button className='w3-button' style={{color:"white",backgroundColor:"green", margin:'1%' }}>Edit</button><br></br>
-        <input type='text' placeholder='Phone'></input><button className='w3-button' style={{color:"white",backgroundColor:"green", margin:'1%' }}>Edit</button><br></br>
-        <input type='password' placeholder='Password'></input><button className='w3-button' style={{color:"white",backgroundColor:"green", margin:'1%' }}>Edit</button><br></br>
+       {/* {userDetails ? (
+        <>
 
+        </>
+       )} */}
 
       </div>
 
