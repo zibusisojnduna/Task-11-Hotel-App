@@ -2,9 +2,15 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import { auth } from "../components/firebase"
 import { toast } from "react-toastify"
+import { useNavigate } from "react-router-dom"
+import { loginUser } from "../features/loginSlice"
+import { useDispatch, useSelector } from "react-redux" 
+
 function Login(){
 const [email, setEmail] = useState("")
 const [password, setPassword] = useState("")
+const dispatch = useDispatch()
+const navigate = useNavigate()
 
 const handleSubmit = async(e) => {
     e.preventDefault()
@@ -22,12 +28,17 @@ try{
     })
 
 }
+dispatch(loginUser({ email, password})).then((action) => {
+    if (loginUser.fulfilled.match(action)) {
+        navigate("/accommodation")
+    }
+})
 }
     return(
     <div style={{ justifyContent:"center", alignItems:"center", height:"100vh", width:"100vw", textAlign:"center"}}>
         <h1>Login</h1><br></br>
         <p>Please enter the following details</p>
-        <form style={{padding:"2%"}}>
+        <form onSubmit={handleSubmit} style={{padding:"2%"}}>
             <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} style={{margin:"1%"}}/><br></br>
             <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} style={{margin:"1%"}}/><br></br>
             <button className="w3-button" style={{backgroundColor:"#0d4a75", color:"white"}}>Login</button>
