@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom'
 export default function Cart() {
   return (
     <section style={{textAlign:"center"}}>
@@ -8,7 +8,7 @@ export default function Cart() {
         <th>
           
         </th>
-        <button className='w3-button' style={{backgroundColor:"#0d4a75", color:"white"}}>Checkout</button>
+        <button className='w3-button' style={{backgroundColor:"#0d4a75", color:"white"}}><Link to={"/paymentGate"}>Checkout</Link></button>
        </div>
     </section>
    

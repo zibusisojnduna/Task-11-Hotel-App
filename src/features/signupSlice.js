@@ -1,46 +1,46 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import 'firebase/auth';
+// registerSlice.js
+import { createSlice } from '@reduxjs/toolkit';
+import { auth } from '../components/firebase'; // Import your Firebase auth
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
-export const signUpUser = createAsyncThunk(
-    'signup/signUpUser',
-    async ({ email, password }, { rejectWithValue }) => {
-        try {
-            const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-            return userCredential.user; // Return user info on success
-        } catch (error) {
-            return rejectWithValue(error.message); // Return error message
-        }
-    }
-);
+const initialState = {
+  user: null,
+  loading: false,
+  error: null,
+};
 
-const signupSlice = createSlice({
-    name: 'signup',
-    initialState: {
-        user: null,
-        loading: false,
-        error: null,
+const registerSlice = createSlice({
+  name: 'register',
+  initialState,
+  reducers: {
+    registerStart(state) {
+      state.loading = true;
+      state.error = null;
     },
-    reducers: {
-        resetError: (state) => {
-            state.error = null;
-        },
+    registerSuccess(state, action) {
+      state.loading = false;
+      state.user = action.payload;
     },
-    extraReducers: (builder) => {
-        builder
-            .addCase(signUpUser.pending, (state) => {
-                state.loading = true;
-                state.error = null;
-            })
-            .addCase(signUpUser.fulfilled, (state, action) => {
-                state.loading = false;
-                state.user = action.payload; // Set user data on success
-            })
-            .addCase(signUpUser.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload; // Set error message
-            });
+    registerFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
     },
+  },
 });
 
-export const { resetError } = signupSlice.actions;
-export default signupSlice.reducer;
+// Export actions
+export const { registerStart, registerSuccess, registerFailure } = registerSlice.actions;
+
+// Async thunk for registration
+export const register = (email, password) => async (dispatch) => {
+  dispatch(registerStart());
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    dispatch(registerSuccess(userCredential.user));
+  } catch (error) {
+    dispatch(registerFailure(error.message));
+  }
+};
+
+// Export the reducer
+export default registerSlice.reducer;

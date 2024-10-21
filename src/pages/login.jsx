@@ -1,39 +1,28 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { auth } from "../components/firebase"
-import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
-import { loginUser } from "../features/loginSlice"
+import { login} from "../features/loginSlice"
 import { useDispatch, useSelector } from "react-redux" 
 
 function Login(){
+const {error} = useSelector((state) => state.login)
 const [email, setEmail] = useState("")
 const [password, setPassword] = useState("")
 const dispatch = useDispatch()
 const navigate = useNavigate()
 
-const handleSubmit = async(e) => {
+const handleSubmit = (e) => {
     e.preventDefault()
-try{
-    await auth.signInWithEmailAndPassword(auth,email, password)
-    console.log("User login sucessfull")
-    window.location.href="/"
-    toast.success("User login sucessfull!", {
-        position:"top-center"
-    })
-}catch (error) {
-    console.log(error.message)
-    toast.error("User login failed!", {
-        position:"top-center"
-    })
+    dispatch(login(email, password))
 
-}
-dispatch(loginUser({ email, password})).then((action) => {
-    if (loginUser.fulfilled.match(action)) {
-        navigate("/accommodation")
+    if (!error){
+        navigate("/accommodations")
     }
-})
+    
 }
+
+
+
     return(
     <div style={{ justifyContent:"center", alignItems:"center", height:"100vh", width:"100vw", textAlign:"center"}}>
         <h1>Login</h1><br></br>

@@ -3,10 +3,7 @@ import { auth, db } from '../components/firebase'
 import { doc, getDoc } from 'firebase/firestore'
 import { toast } from 'react-toastify'
 export default function Profile() {
-  const [userDetails, setUserDetails] = useState(null)
-  const fetchUserData = async(user) => {
-    console.log
-  }
+ 
   return (
     <section style={{textAlign:"center"}}>
       <div>

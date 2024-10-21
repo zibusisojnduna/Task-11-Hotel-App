@@ -1,15 +1,21 @@
 import React, { useState } from 'react'
-import { auth, db } from '../components/firebase'
-import { doc, getDoc } from 'firebase/firestore'
-import { toast } from 'react-toastify'
+import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../components/modal'
 import { Link } from 'react-router-dom'
+import { FaArrowLeft } from "react-icons/fa";
+import { useEffect } from 'react';
+import {fetchAccommodations} from '../features/accommodationsSlice'
 
 export default function Accommodations() {
   const [isModalOpen, setModalOpen] = useState(false)
-
+  const dispatch = useDispatch()
+  const { accommodations} = useSelector((state) => state.accommodations)  
   const openModal = () => setModalOpen(true)
   const closeModal = () => setModalOpen(false)
+
+  useEffect(() => {
+    dispatch(fetchAccommodations())
+  }, [dispatch])
 
   return (
     <section>
@@ -22,7 +28,7 @@ export default function Accommodations() {
         <h1>Hotels</h1>
         <div style={{display:"flex"}}>
           <div>
-            <h1>hosihvhvsp</h1><br></br>
+            <h1>Hotel 1</h1><br></br>
             <button onClick={openModal} className="w3-button" style={{backgroundColor:"#0d4a75", color:"white"}}>Book Now</button>
           </div>
           <div style={{width:"50%", padding:"2%"}}>
@@ -47,9 +53,14 @@ export default function Accommodations() {
       </div>
 
 
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
+      <Modal isOpen={isModalOpen}>
+        <button className='w3-button' onClick={closeModal}><FaArrowLeft /></button>
         <div>
-          <button className='w3-button'><Link to={"/cart"} style={{color:"white"}}>Confirm</Link></button>
+        
+
+
+          <button className='w3-button' style={{backgroundColor:"blue"}}><Link to={"/cart"} style={{color:"white"}}>Confirm</Link></button>
+          
         </div>
 
         </Modal>

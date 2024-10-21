@@ -1,46 +1,54 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import 'firebase/auth';
+import { createSlice } from '@reduxjs/toolkit';
+import { auth } from '../components/firebase'; // Import your Firebase auth
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
-export const loginUser = createAsyncThunk(
-    'login/loginUser',
-    async ({ email, password }, { rejectWithValue }) => {
-        try {
-            const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
-            return userCredential.user; // Return user info on success
-        } catch (error) {
-            return rejectWithValue(error.message); // Return error message
-        }
-    }
-);
+const initialState = {
+  user: null,
+  loading: false,
+  error: null,
+};
 
 const loginSlice = createSlice({
-    name: 'login',
-    initialState: {
-        user: null,
-        loading: false,
-        error: null,
+  name: 'login',
+  initialState,
+  reducers: {
+    loginStart(state) {
+      state.loading = true;
+      state.error = null;
     },
-    reducers: {
-        resetError: (state) => {
-            state.error = null;
-        },
+    loginSuccess(state, action) {
+      state.loading = false;
+      state.user = action.payload;
     },
-    extraReducers: (builder) => {
-        builder
-            .addCase(loginUser.pending, (state) => {
-                state.loading = true;
-                state.error = null;
-            })
-            .addCase(loginUser.fulfilled, (state, action) => {
-                state.loading = false;
-                state.user = action.payload; // Set user data on success
-            })
-            .addCase(loginUser.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload; // Set error message
-            });
+    loginFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
     },
+    logout(state) {
+      state.user = null;
+    },
+  },
 });
 
-export const { resetError } = loginSlice.actions;
+// Export actions
+export const { loginStart, loginSuccess, loginFailure, logout } = loginSlice.actions;
+
+// Async thunk for login
+export const login = (email, password) => async (dispatch) => {
+  dispatch(loginStart());
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    dispatch(loginSuccess(userCredential.user));
+  } catch (error) {
+    dispatch(loginFailure(error.message));
+  }
+};
+
+// Async thunk for logout
+export const logoutUser = () => async (dispatch) => {
+  await signOut(auth);
+  dispatch(logout());
+};
+
+// Export the reducer
 export default loginSlice.reducer;
