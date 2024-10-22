@@ -88,8 +88,7 @@ const accommodationsSlice = createSlice({
   },
 });
 
-// Export the reducer
+// Export the reducer as default
 export default accommodationsSlice.reducer;
 
-// Export the async thunks
-export { fetchAccommodations, addAccommodation, updateAccommodation, deleteAccommodation };
+// No need to export fetchAccommodations again here

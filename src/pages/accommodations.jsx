@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { FaArrowLeft } from "react-icons/fa";
 import { useEffect } from 'react';
 import {fetchAccommodations} from '../features/accommodationsSlice'
+import { FiMapPin } from "react-icons/fi";
 
 export default function Accommodations() {
   const [isModalOpen, setModalOpen] = useState(false)
@@ -17,6 +18,7 @@ export default function Accommodations() {
     dispatch(fetchAccommodations())
   }, [dispatch])
 
+
   return (
     <section>
       <div style={{padding:"2%"}}>
@@ -27,12 +29,18 @@ export default function Accommodations() {
       <div style={{padding:"2%"}}>
         <h1>Hotels</h1>
         <div style={{display:"flex"}}>
-          <div>
-            <h1>Hotel 1</h1><br></br>
-            <button onClick={openModal} className="w3-button" style={{backgroundColor:"#0d4a75", color:"white"}}>Book Now</button>
+          <div style={{backgroundImage:`url(${require('../assets/dad-hotel-Y-bJWAjPzsY-unsplash.jpg')})`, borderRadius:"15%", width:"25%", backgroundSize:"Cover", color:"white", textAlign:"center", margin:"2%"}}>
+            {accommodations.map(accommodation => (
+              <li key={accommodation.id}>
+                <h2>{accommodation.name}</h2>
+                <p><FiMapPin/>{accommodation.location}</p>
+              </li>
+            ))}
+            <button onClick={openModal} className="w3-button" style={{backgroundColor:"#0d4a75", color:"white", margin:"1%"}}>Book Now</button>
           </div>
-          <div style={{width:"50%", padding:"2%"}}>
-            <h1>Hotel 2</h1>
+
+          <div style={{backgroundImage:`url(${require('../assets/egor-myznik-utPa17sA0l8-unsplash.jpg')})`, borderRadius:"15%", width:"25%", backgroundSize:"Cover", color:"white", textAlign:"center", margin:"2%"}}>
+            
           </div>
           <div style={{width:"50%", padding:"2%"}}>
             <h1>Hotel 3</h1>
